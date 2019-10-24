@@ -2,13 +2,14 @@ import random
 from pymessenger.bot import Bot
 from flask import Flask, request
 import json
-
+from bot import Bot
 app = Flask(__name__)
-ACCESS_TOKEN = 'EAAFpjOT0M4sBAIT4cI12HPN0WLzjbbwsf9EeYmASSlUDTtZClUopJcyH3eSrnLuReML5A34ZBZAmXVxvscdwVgrSfRaVNeQLew23wbK2hB7gLKaxRdMFYic2UE1ovL8UPz5rPam2zcwjRvtIypfPiRtMQc3GI9VlBbaosZBkGC0RTsgWD0wlKBNRLQcI0TgZD'
+ACCESS_TOKEN = 'EAAFpjOT0M4sBAMqI3ZC2soJTSViVhIwFFt6XUSVCVWTABAKZCIg1gcdfPJC7xluARK9aRCnEapB1FUbZC7TKHKVCdYfF4qZAY4I6v9E3B5bH6xWYTFZCYdb1ecTSyxQtgolyMRVZBmHl7ZCbXGjQq3DhH3f59qHE5hdM61JyoYdJ32BLZB9iS7VG9vZCgBN6jglUZD'
 
 VERIFY_TOKEN = 'VERIFY_TOKEN'
 bot = Bot(ACCESS_TOKEN)
 
+GREETINGS = ['hi', 'hello', 'howdy']
 # app.route is a decorator that knows the below function
 # @app is the name of the object containing the flask app
 # app.route decorator takes the URL of a route, and HTTP methods
@@ -31,14 +32,21 @@ def receive_message():
         #      "message": {
         #          "mid": "d__TBKqfqSSKA-V0JlitX-nsTLSUzZqlhs1OlZllM4sm0fJa32U8KFq1KjbGyz0VppSfWavOT8Jdq0cn-utCOg",
         #          "text": "workedddd"}}]}]}
-        print(request.data)
+        #print(request.data)
         data = json.loads(request.data)
         messaging_event = data['entry'][0]['messaging']
+        bot = Bot(ACCESS_TOKEN)
 
         for message in messaging_event:
             user_id = message['sender']['id']
             text_input = message['message'].get('text')
+
+            if text_input in GREETINGS:
+                response_text = 'Hello. Welcome to my first bot!'
+            else:
+                response_text = 'I\'m still learning'
             print('Message from user ID {} - {}'.format(user_id, text_input))
+            bot.send_text_message(user_id, response_text)
         return '200'
     # else:
     #     # get whatever message a user sent the bot
