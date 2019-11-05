@@ -26,13 +26,7 @@ def receive_message():
         return verify_fb_token(token_sent)
         # if the request was not get, it must be POST and we can just proceed with sending a message # back to user
     else:
-        # json data we are looking at
-        # {"object": "page", "entry": [{"id": "101210667972429", "time": 1571287751199, "messaging": [
-        #     {"sender": {"id": "2438800666188023"}, "recipient": {"id": "101210667972429"}, "timestamp": 1571287693949,
-        #      "message": {
-        #          "mid": "d__TBKqfqSSKA-V0JlitX-nsTLSUzZqlhs1OlZllM4sm0fJa32U8KFq1KjbGyz0VppSfWavOT8Jdq0cn-utCOg",
-        #          "text": "workedddd"}}]}]}
-        #print(request.data)
+
         data = json.loads(request.data)
         messaging_event = data['entry'][0]['messaging']
         bot = Bot(ACCESS_TOKEN)
@@ -42,6 +36,7 @@ def receive_message():
             text_input = message['message'].get('text')
 
             if text_input in GREETINGS:
+                response_text = get_response();
                 response_text = 'Hello. Welcome to my first bot!'
             else:
                 response_text = 'I\'m still learning'
@@ -65,8 +60,9 @@ def receive_message():
     #                     response_sent_nontext = get_message()
     #                     send_message(recipient_id, response_sent_nontext)
     # return "Message Processed"
-
-
+def get_response():
+    responese = ['Dad???', 'Shouldn\'t you be doing more coding questions', 'Compounding interest is the most powerful force in the world']
+    return random.choice(responese)
 # def verify_fb_token(token_sent):
 #     # take token sent by facebook and verify it matches the verify token you sent
 #     # if they match, allow the request, else return an error
