@@ -37,7 +37,7 @@ def receive_message():
 
             if text_input in GREETINGS:
                 response_text = get_response();
-                response_text = 'Hello. Welcome to my first bot!'
+                response_text = 'Did you do your leetcode today?'
             else:
                 response_text = 'I\'m still learning'
             print('Message from user ID {} - {}'.format(user_id, text_input))
